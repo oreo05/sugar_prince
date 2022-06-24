@@ -1,0 +1,70 @@
+{% extends 'sugar_p/base.html' %}
+{% load static %}
+
+{% block desc %}<meta name="description" content="Топ популярных аниме, которые могут понравится тебе">{% endblock desc %}
+{% block title %}Топ 50 самых популярных аниме{% endblock title %}
+
+{% block content %}
+	<div class="wrapper">
+		<div class="animes">
+			<div class="title__animes">
+				<div class="title__list">
+					<h1 class="title__anime-all">
+						Топ 50 популярных аниме
+					</h1>
+				</div>
+				<p class="tags">
+					Жанры:
+					{% for tag in all_tags %}
+						<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag-title">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+					{% endfor %}
+				</p>
+			</div>
+			<ul class="anime_list infinite-container">
+				{% for anime in animes %}
+					<li class="anime__list-item infinite-item">
+						<a href="{% url 'sugar_p:anime' anime.slug %}" class="anime-item anime__img">
+							<img src="{{ anime.poster.url }}" alt="{{ anime.title }}" class="list__poster-pic">
+						</a>
+						<div class="anime-item anime__info">
+							<a href="{% url 'sugar_p:anime' anime.slug %}" class="anime-link">{{ anime.title }}</a>
+							<p class="tags">
+							{% for tag in anime.tags.all %}
+								<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+							{% endfor %}
+							</p>
+							<p class="anime-desc">
+								{{ anime.desc|truncatechars:450 }}
+							</p>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+			{% if animes.has_next %}
+				<a href="?page={{ animes.next_page_number }}" class="infinite-more-link"></a>
+			{% endif %}
+			<div class="loading" style="display: none;">
+				Загрузка... Подожди немного
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/infinite.min.js' %}"></script>
+<script>
+	var infinite = new Waypoint.Infinite({
+		element: $('.infinite-container')[0],
+		offset: function () {
+    		return this.context.innerHeight() - this.adapter.outerHeight() + 700
+		},
+		onBeforePageLoad: function () {
+			$('.loading').show();
+		},
+		onAfterPageLoad: function ($items) {
+			$('.loading').hide();
+		}
+	});
+</script>
+{% endblock scripts %}

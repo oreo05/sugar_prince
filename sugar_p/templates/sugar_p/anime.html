@@ -1,0 +1,38 @@
+{% extends 'sugar_p/base.html' %}
+{% load static %}
+
+{% block desc %} <meta name="description" content="{{ anime.desc |truncatechars:100 }}">{% endblock desc %}
+{% block title %}Смотреть {{ anime.title }} в хорошем качестве{% endblock title %}
+
+
+{% block content %}
+	<div class="anime">
+		<div class="wrapper">
+            <div class="anime__information">
+                <div class="poster">
+                    <img src="{{ anime.poster.url }}" alt="{{ anime.title }} смотреть в hd 1080 720 в хорошем качестве" class="poster-pic">
+			    </div>
+                <div class="about">
+                    <h1 class="anime__title">
+                        {{ anime.title }}
+                    </h1>
+                    <div class="tags">
+                        {% for tag in anime.tags.all %}
+                            <a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </div>
+			        <p class="anime__subtitle">
+			        	{{ anime.desc }}
+			        </p>
+                </div>
+            </div>
+			<div class="player">
+				<div class="player__wrapper">
+					<div class="player__item"></div>
+					<iframe class="kodik-player" src="{{ anime.source }}" AllowFullScreen allow="autoplay *; fullscreen *"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

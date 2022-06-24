@@ -1,0 +1,7 @@
+User-agent: Mediapartners-Google
+Disallow:
+User-agent: *
+Disallow: /angr_admin/
+Disallow: /search/
+
+Sitemap: https://anigiri.net/sitemap.xml

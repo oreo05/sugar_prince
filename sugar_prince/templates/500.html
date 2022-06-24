@@ -1,0 +1,6 @@
+{% extends "sugar_p/base.html" %}
+{% block title %}Ошибка 500{% endblock title %}
+
+{% block content %}
+    <h1>Произошла внутренняя ошибка(500). <a href="{% url 'sugar_p:index' %}">Главная страница</a></h1>
+{% endblock content%}

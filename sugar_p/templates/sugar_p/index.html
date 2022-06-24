@@ -1,0 +1,27 @@
+{% extends 'sugar_p/base.html' %}
+{% load static %}
+
+{% block desc %}<meta name="description" content="Anigiri - лучший аниме-сайт для просмотра аниме всех жанров в хорошем HD качестве.">{% endblock desc %}
+{% block title %}Смотреть аниме в хорошем качестве на Anigiri{% endblock title %}
+
+{% block content %}
+	<!-- Intro start -->
+	<div class="intro">
+		<div class="wrapper wow fadeIn">
+			<h1 class="intro__title">
+				Смотреть аниме в хорошем качестве на Anigiri
+			</h1>
+			<p class="intro__subtitle">
+				Anigiri - лучший аниме-сайт для просмотра аниме всех жанров в хорошем HD качестве. Вы найдете множество популярных и новых японских анимаций любого жанра, которые понравятся всем, на Анигири.
+			</p>
+			<a href="{% url 'sugar_p:animes' %}" class="button button__choose">
+				<span class="button__line button__line--top"></span>
+				<span class="button__line button__line--right"></span>
+				<span class="button__line button__line--bottom"></span>
+				<span class="button__line button__line--left"></span>
+				Выбрать аниме
+			</a>
+		</div>
+	</div>
+	<!-- Intro end -->
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "sugar_p/base.html" %}
+{% block title %}Ошибка 404{% endblock title %}
+
+{% block content %}
+    <div class="intro">
+		<div class="wrapper wow fadeIn">
+			<h1 class="intro__title">
+				Страница не найдена(404).
+			</h1>
+			<p class="intro__subtitle">
+				Перейдиете на <a href="{% url 'sugar_p:index' %}">Главную страницу</a>
+            </p>
+		</div>
+	</div>
+{% endblock content%}

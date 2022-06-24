@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% block desc %}{% endblock desc %}
+	<meta name="keywords" content="Аниме, фильмы, анигири, anigiri">
+	<title>{% block title %}{% endblock title %}</title> 
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">
+	<link rel="mask-icon" href="{% static 'img/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+	<link rel="shortcut icon" href="{% static 'img/favicon/favicon.ico' %}">
+	<meta name="msapplication-TileColor" content="#603cba">
+	<meta name="msapplication-config" content="img/favicon/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" href="{% static 'css/boot.css' %}">
+	<link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+	<link rel="stylesheet" href="{% static 'WOW-master/css/libs/animate.css' %}">
+</head>
+<body>
+	<!-- Header start -->
+	<header class="header">
+		<div class="wrapper">
+			<div class="header__wrapper">
+				<div class="header__burger burger">
+					<span class="burger__line burger__line_first"></span>
+					<span class="burger__line burger__line_second"></span>
+					<span class="burger__line burger__line_third"></span>
+				</div>
+				<div class="header__logo">
+					<a href="{% url 'sugar_p:index' %}" class="header__logo-link">
+						<img src="{% static 'img/svg/anigiri.svg' %}" alt="Смотреть аниме онлайн бесплатно в хорошем качестве" class="header__logo-pic">
+					</a>
+				</div>
+				<nav class="header__nav">
+					<form action="{% url 'sugar_p:search' %}" method="get" class="mobile__search d-flex" role="search">
+						<div class="input-group group__search">
+						  <input type="search" class="form-control border-primary" placeholder="Поиск" name="q" aria-label="Поиск" aria-describedby="button-addon2">
+						  <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+							  	<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								</svg>
+						  </button>
+						</div>
+					</form>
+					<ul class="header__list">
+						<li class="header__item">
+							<a href="{% url 'sugar_p:animes' %}" class="header__link button button__header">
+								<span class="button__line button__line--top"></span>
+								<span class="button__line button__line--right"></span>
+								<span class="button__line button__line--bottom"></span>
+								<span class="button__line button__line--left"></span>
+								Аниме
+							</a>
+						</li>
+						<li class="header__item">
+							<a href="{% url 'sugar_p:top_fifteen' %}" class="header__link button button__header">
+								<span class="button__line button__line--top"></span>
+								<span class="button__line button__line--right"></span>
+								<span class="button__line button__line--bottom"></span>
+								<span class="button__line button__line--left"></span>
+								Топ 50 популярных
+							</a>
+						</li>
+					</ul>
+					<form action="{% url 'sugar_p:search' %}" method="get" class="d-flex desktop__search" role="search">
+						<div class="input-group">
+						  <input type="search" class="form-control border-primary" placeholder="Поиск" name="q" aria-label="Поиск" aria-describedby="button-addon2">
+						  <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+							  	<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								</svg>
+						  </button>
+						</div>
+					</form>
+					<div class="header__nav-close">
+						<span class="header__nav-close-line"></span>
+						<span class="header__nav-close-line"></span>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<!-- Header end -->
+	<main class="main">
+        {% block content %}{% endblock content %}
+		<!-- Menu start -->
+		<section class="menu wow fadeInUp">
+			<div class="menu__wrap">
+				<h2 class="menu__title">
+					Случайные аниме
+				</h2>
+				<div class="menu__cards">
+					{% for random_anime in random_animes %}
+					<div class="menu__card menu__card-size-lg">
+						<img src="{{ random_anime.poster.url }}" alt="{{ random_anime.title }}" class="menu__card-img">
+						<h3 class="menu__card-title">
+							{{ random_anime.title }}
+						</h3>
+						<a href="{% url 'sugar_p:anime' random_anime.slug %}" class="menu__card-more"></a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+		<!-- Menu end -->
+	</main>
+
+	<footer class="footer">
+		<div class="wrapper">
+			<div class="footer__item">
+				<div class="footer__logo">
+					<img src="{% static 'img/svg/anigiri-footer.svg' %}" alt="Смотреть аниме онлайн бесплатно в хорошем качестве" class="footer__logo-pic">
+				</div>
+				<nav class="footer__nav">
+					<ul class="footer__menu">
+						<li class="footer__menu-item">
+							<p>theanigiri@gmail.com</p>
+						</li>
+					</ul>
+					<ul class="footer__menu">
+						<li class="footer__menu-item">
+							<a href="https://vk.com/sugarprince" class="footer__menu-link">Вконтакте</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</footer>
+	<script src="{% static 'js/main.min.js' %}"></script>
+	<script src="{% static 'WOW-master/dist/wow.min.js' %}"></script>
+	<script>
+		new WOW().init();
+	</script>
+	{% block scripts %}{% endblock scripts %}
+</body>
+</html>

@@ -1,0 +1,97 @@
+{% extends 'sugar_p/base.html' %}
+{% load static %}
+
+{% block desc %}<meta name="description" content="Все аниме на любой вкус и жанр. Ты точно найдешь, что искал!">{% endblock desc %}
+{% block title %}Поиск{% endblock title %}
+
+{% block content %}
+	<div class="wrapper">
+		<div class="animes">
+			<div class="title__animes">
+				<div class="title__list-search">
+					<h1 class="title__anime-all-search">
+						Найти Аниме: <span class="title__anime-tag">{{ search_q }}</span>
+					</h1>
+					<form action="{% url 'sugar_p:search' %}" method="get" class="d-flex title__search desktop__search" role="search">
+						<div class="input-group  title__inp">
+						  <input type="search" value="{{ search_q }}"class="form-control border-primary" placeholder="Поиск" name="q" aria-label="Поиск" aria-describedby="button-addon2">
+						  <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+								  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+								</svg>
+						  </button>
+						</div>
+					</form>
+				</div>
+				<p class="tags">
+					Искать по жанру:
+					{% for tag in all_tags %}
+						<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag-title">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+					{% endfor %}
+				</p>
+			</div>
+			<form action="{% url 'sugar_p:animes' %}" method="get" class="mobile__search d-flex" role="search">
+				<div class="input-group group__search">
+				  <input type="search" class="form-control border-primary" placeholder="Поиск" name="q" aria-label="Поиск" aria-describedby="button-addon2">
+				  <button class="btn btn-outline-primary btn-search" type="submit" id="button-addon2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+				  </button>
+				</div>
+			</form>
+			<ul class="anime_list infinite-container">
+				{% if animes %}
+					{% for anime in animes %}
+						<li class="anime__list-item infinite-item">
+							<a href="{% url 'sugar_p:anime' anime.slug %}" class="anime-item anime__img">
+								<img src="{{ anime.poster.url }}" alt="{{ anime.title }}" class="list__poster-pic">
+							</a>
+							<div class="anime-item anime__info">
+								<a href="{% url 'sugar_p:anime' anime.slug %}" class="anime-link">{{ anime.title }}</a>
+								<p class="tags">
+								{% for tag in anime.tags.all %}
+									<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+								{% endfor %}
+								</p>
+								<p class="anime-desc">
+									{{ anime.desc|truncatechars:450 }}
+								</p>
+							</div>
+						</li>
+					{% endfor %}
+				{% else %}
+					<p class="anime__list__null">
+						Ничего не найдено по вашему запросу :(
+						Возможно вы допустили ошибку в названии. Попробуйте поискать аниме <a href="{% url 'sugar_p:animes' %}" class="animes__link">здесь</a>.
+					</p>
+				{% endif %}
+			</ul>
+			{% if animes.has_next %}
+				<a href="?page={{ animes.next_page_number }}" class="infinite-more-link"></a>
+			{% endif %}
+			<div class="loading" style="display: none;">
+				Загрузка... Подожди немного
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/infinite.min.js' %}"></script>
+<script>
+	var infinite = new Waypoint.Infinite({
+		element: $('.infinite-container')[0],
+		offset: function () {
+    		return this.context.innerHeight() - this.adapter.outerHeight() + 700
+		},
+		onBeforePageLoad: function () {
+			$('.loading').show();
+		},
+		onAfterPageLoad: function ($items) {
+			$('.loading').hide();
+		}
+	});
+</script>
+{% endblock scripts %}
