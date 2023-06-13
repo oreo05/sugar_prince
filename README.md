@@ -1,5 +1,5 @@
-<h1 align="center">Киносайт на Django 3</h1>
-Проект сделан в целях обучения основам Django 3
+<h1 align="center">Киносайт на Django 4</h1>
+Проект сделан в целях обучения основам Django 4
 <h2 align="center">Установка</h2>
 
 
