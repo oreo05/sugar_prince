@@ -11,7 +11,9 @@
 
 ### 3) Выполнить миграции
 
-    python manage.py migrate    
+    python manage.py migrate
+    python manage.py makemigrations
+    python manage.py migrate
 
 ### 4) Создать суперпользователя
 
