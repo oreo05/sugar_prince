@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-	path('angr_admin/', admin.site.urls),
+	path('admin/', admin.site.urls),
 	path('', include('sugar_p.urls')),
 ]
 if settings.DEBUG:

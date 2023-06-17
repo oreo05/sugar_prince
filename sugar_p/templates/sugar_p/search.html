@@ -25,9 +25,13 @@
 				</div>
 				<p class="tags">
 					Искать по жанру:
-					{% for tag in all_tags %}
+					{% if all_tags %}
+						{% for tag in all_tags %}
 						<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag-title">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
-					{% endfor %}
+						{% endfor %}
+					{% else %}
+						<h3>Ещё не добавлены жанры</h3>
+					{% endif %}
 				</p>
 			</div>
 			<form action="{% url 'sugar_p:animes' %}" method="get" class="mobile__search d-flex" role="search">

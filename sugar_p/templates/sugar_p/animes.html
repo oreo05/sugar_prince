@@ -21,12 +21,17 @@
 				</div>
 				<p class="tags">
 					Жанры:
-					{% for tag in all_tags %}
+					{% if all_tags %}
+						{% for tag in all_tags %}
 						<a href="{% url 'sugar_p:animes_by_tag' tag.slug %}" class="tag-title">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
-					{% endfor %}
+						{% endfor %}
+					{% else %}
+						<h3>Ещё не добавлены жанры</h3>
+					{% endif %}
 				</p>
 			</div>
 			<ul class="anime_list infinite-container">
+				{% if anime %}
 				{% for anime in animes %}
 					<li class="anime__list-item infinite-item">
 						<a href="{% url 'sugar_p:anime' anime.slug %}" class="anime-item anime__img">
@@ -45,6 +50,9 @@
 						</div>
 					</li>
 				{% endfor %}
+				{% else %}
+					<h3>Ещё нет ни одного аниме</h3>
+				{% endif%}
 			</ul>
 			{% if animes.has_next %}
 				<a href="?page={{ animes.next_page_number }}" class="infinite-more-link"></a>

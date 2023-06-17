@@ -7,8 +7,15 @@ from random import sample
 
 def random_animes(anime):
 	"""Возвращает 3 рандомные аниме"""
-	my_ids = anime.objects.values_list('id', flat=True)
-	my_ids = list(my_ids)
+	try:
+		my_ids = anime.objects.values_list('id', flat=True)
+		my_ids = list(my_ids)
+	except:
+		return None
+	if len(my_ids) == 1:
+		return anime.objects.all()
+	if len(my_ids) == 2:
+		return anime.objects.all()
 	rand_ids = sample(my_ids, 3)
 	random_animes = anime.objects.filter(id__in=rand_ids)
 	return random_animes
@@ -19,7 +26,7 @@ def get_client_ip(request):
 	if x_forwarded_for:
 		ip = x_forwarded_for.split(',')[0]
 	else:
-		ip = request.META.get('REMOTE_ADDR') # В REMOTE_ADDR значение айпи пользователя
+		ip = request.META.get('REMOTE_ADDR')
 	return ip
 
 def index(request):
@@ -41,7 +48,10 @@ def animes(request, tag_slug=None):
 	try:
 		animes = paginator.page(page)
 	except PageNotAnInteger:
-		animes = paginator.page(1)
+		try:
+			animes = paginator.page(1)
+		except:
+			animes = None
 	except EmptyPage:
 		animes = paginator.page(paginator.num_pages)
 	random_anime = random_animes(Anime)
@@ -84,7 +94,10 @@ def search(request):
 	page = request.GET.get('page')
 	paginator = Paginator(animes, 2)
 	try:
-		animes = paginator.page(page)
+		# try:
+			animes = paginator.page(page)
+		# except:
+		# 	animes = None
 	except PageNotAnInteger:
 		animes = paginator.page(1)
 	except EmptyPage:
@@ -117,12 +130,16 @@ def top_fifteen(request):
 	page = request.GET.get('page')
 	paginator = Paginator(animes, 20)
 	try:
-		animes = paginator.page(page)
+		try:
+			animes = paginator.page(page)
+		except:
+			animes = None
 	except PageNotAnInteger:
 		animes = paginator.page(1)
 	except EmptyPage:
 		animes = paginator.page(paginator.num_pages)
 	random_anime = random_animes(Anime)
+	random_anime = None
 	all_tags = Tag.objects.all()
 	context = {'animes': animes, 'page': page, 'random_animes': random_anime,
 														'all_tags': all_tags}

@@ -94,17 +94,21 @@
 				<h2 class="menu__title">
 					Случайные аниме
 				</h2>
+				{% if random_animes %}
 				<div class="menu__cards">
-					{% for random_anime in random_animes %}
-					<div class="menu__card menu__card-size-lg">
-						<img src="{{ random_anime.poster.url }}" alt="{{ random_anime.title }}" class="menu__card-img">
-						<h3 class="menu__card-title">
-							{{ random_anime.title }}
-						</h3>
-						<a href="{% url 'sugar_p:anime' random_anime.slug %}" class="menu__card-more"></a>
+						{% for random_anime in random_animes %}
+						<div class="menu__card menu__card-size-lg">
+							<img src="{{ random_anime.poster.url }}" alt="{{ random_anime.title }}" class="menu__card-img">
+							<h3 class="menu__card-title">
+								{{ random_anime.title }}
+							</h3>
+								<a href="{% url 'sugar_p:anime' random_anime.slug %}" class="menu__card-more"></a>
+						</div>
+						{% endfor %}
 					</div>
-					{% endfor %}
-				</div>
+				{% else %}
+					<h3 style="color:white; font-size:25px">В БД должно быть минимум 3 аниме</h3>
+				{% endif %}
 			</div>
 		</section>
 		<!-- Menu end -->
